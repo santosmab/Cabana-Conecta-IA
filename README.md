@@ -2,7 +2,7 @@
 
 📍 CabanaPay – Inclusão Financeira Local com Solana
 
-Autor: [Seu Nome]
+Autor: MAria EDuarda, Izabelly Luize e Isabelle Christinne
 Projeto: Solução de pagamentos e transparência comunitária usando blockchain
 
 💡 1. Visão do Projeto
