@@ -40,7 +40,7 @@ Recebe confirmação instantânea
 Pode visualizar histórico de transações
 🖼️ 4. Esboço de Telas (Wireframe)
 
-📌 Link do protótipo: [COLE AQUI SEU LINK DO FIGMA OU IMAGEM]
+📌 Link do protótipo: 
 
 Telas principais:
 
