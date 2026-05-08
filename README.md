@@ -1,78 +1,133 @@
 # Cabana-Conecta-IA
 
-📍 CabanaPay – Inclusão Financeira Local com Solana
+# 📍 CabanaPay – Inclusão Financeira Local com Solana
 
-Autor: Maria Eduarda, Izabelly Luize e Isabelle Christinne
-Projeto: Solução de pagamentos e transparência comunitária usando blockchain
+## 👩‍💻 Autoras
+- Maria Eduarda
+- Izabelly Luize
+- Isabelle Christinne
 
-💡 1. Visão do Projeto
+## 💡 Visão do Projeto
 
-O CabanaPay é uma solução digital que permite pagamentos rápidos, baratos e transparentes dentro da comunidade, além de facilitar o envio de doações e fortalecer o comércio local.
+O CabanaPay é uma solução digital criada para facilitar pagamentos rápidos, baratos e transparentes dentro da comunidade, utilizando a blockchain Solana.
 
-Problema raiz: dificuldade de acesso a serviços financeiros + baixa confiança em sistemas informais.
+O projeto busca fortalecer o comércio local, facilitar doações e promover inclusão financeira para pessoas com pouco acesso a serviços bancários tradicionais.
 
-⚙️ 2. Funcionamento Técnico (O "Como")
+---
 
-Fluxo básico do sistema:
+# ❗ Problema Real
 
-Usuário abre app → Conecta carteira (Phantom) →
-Seleciona ação (pagar / receber / doar) →
-Sistema valida saldo →
-Transação é enviada →
-Registro na blockchain da Solana →
-Confirmação exibida ao usuário
+Muitas comunidades possuem dificuldade de acesso a serviços financeiros seguros e acessíveis. Além disso, sistemas informais de pagamentos e doações geram baixa confiança e pouca transparência.
 
-Bastidores:
+---
 
-Uso de smart contracts simples para registrar transações
-Integração com carteira digital (ex: Phantom)
-Backend leve para interface e organização de dados não sensíveis
-👤 3. Jornada do Usuário
-Usuário baixa/acessa o app
-Conecta sua carteira (Phantom)
-Escolhe uma ação:
-Pagar um comerciante
-Receber pagamento
-Enviar/receber doação
-Confirma o valor
-Assina a transação
-Recebe confirmação instantânea
-Pode visualizar histórico de transações
-🖼️ 4. Esboço de Telas (Wireframe)
+# 🔥 Dores Mais Importantes
 
-📌 Link do protótipo: 
+## Dor 1
+Falta de acesso a meios de pagamento simples, rápidos e baratos para comerciantes e moradores da comunidade.
 
-Telas principais:
+## Dor 2
+Falta de transparência e confiança em transações financeiras e doações realizadas informalmente.
 
-Tela inicial (saldo + ações rápidas)
-Tela de pagamento (QR Code ou chave)
-Tela de confirmação
-Histórico de transações
-⚡ 5. Diferencial Blockchain (Solana)
+---
 
-O projeto utiliza a Solana principalmente por:
+# 🧭 Melhor Direção para o Projeto
 
-🚀 Velocidade e baixo custo
-Permite microtransações viáveis para o dia a dia da comunidade.
+A melhor estratégia para o CabanaPay é desenvolver primeiro um MVP (Produto Mínimo Viável) simples e funcional.
 
-🔍 Transparência
-Todas as transações podem ser verificadas, aumentando a confiança em doações e pagamentos.
+## Prioridades:
+- Sistema de pagamento via QR Code
+- Integração com carteira Phantom
+- Interface simples e acessível
+- Histórico de transações
+- Sistema transparente para doações
+- Testes com usuários reais da comunidade
 
-🔒 Segurança e propriedade
-O usuário tem controle total sobre seu dinheiro, sem intermediários.
+O foco principal deve ser resolver problemas reais da comunidade de forma simples e eficiente.
 
-🧠 6. Impacto Esperado
-Inclusão financeira básica
-Fortalecimento do comércio local
-Maior transparência em projetos sociais
-Redução de custos com transações
-⚠️ 7. Limitações e Desafios
-Necessidade de acesso à internet
-Educação digital dos usuários
-Volatilidade de criptomoedas
-Adoção inicial pela comunidade
-🚀 8. Próximos Passos
-Criar protótipo funcional (MVP)
-Testar com usuários reais
-Ajustar usabilidade
-Parcerias com comércios locais
+---
+
+# 👥 Público-Alvo
+
+O CabanaPay é voltado para:
+
+- Pequenos comerciantes locais
+- Moradores de comunidades
+- Pessoas sem acesso bancário completo
+- Projetos sociais
+- Usuários que realizam doações
+- Pessoas que precisam de pagamentos rápidos e baratos
+
+---
+
+# 💎 Proposta de Valor
+
+O CabanaPay oferece uma forma de pagamento:
+
+- Rápida
+- Segura
+- Transparente
+- Com baixo custo de transação
+
+Tudo isso utilizando a blockchain Solana para aumentar a confiança da comunidade e fortalecer a economia local.
+
+---
+
+# ⚙️ Funcionamento Técnico
+
+## Fluxo do Sistema
+
+Usuário abre o aplicativo  
+↓  
+Conecta carteira Phantom  
+↓  
+Escolhe ação (pagar, receber ou doar)  
+↓  
+Sistema valida saldo  
+↓  
+Transação enviada para a blockchain Solana  
+↓  
+Confirmação instantânea
+
+---
+
+# 🧠 Diferenciais da Solana
+
+## 🚀 Velocidade e baixo custo
+Permite microtransações rápidas e acessíveis.
+
+## 🔍 Transparência
+Todas as transações podem ser verificadas.
+
+## 🔒 Segurança
+O usuário mantém controle total sobre seu dinheiro.
+
+---
+
+# 📈 Impacto Esperado
+
+- Inclusão financeira
+- Fortalecimento do comércio local
+- Transparência em doações
+- Redução de custos financeiros
+- Incentivo ao uso de tecnologia na comunidade
+
+---
+
+# ⚠️ Desafios
+
+- Necessidade de internet
+- Educação digital dos usuários
+- Volatilidade das criptomoedas
+- Adoção inicial pela comunidade
+
+---
+
+# 🚀 Próximos Passos
+
+- Criar MVP funcional
+- Realizar testes reais
+- Melhorar usabilidade
+- Criar parcerias com comércios locais
+- Expandir funcionalidades futuramente
+
