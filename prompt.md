@@ -1,193 +1,188 @@
-# Prompt para GitHub Copilot — Projeto CabanaPay
+# 🚀 PROMPT PARA GITHUB COPILOT — DESENVOLVIMENTO DO CABANAPAY
 
-## Objetivo
+Aja como um desenvolvedor Full Stack Sênior especialista em:
+- React
+- Next.js
+- TypeScript
+- TailwindCSS
+- Solana Web3.js
+- Phantom Wallet
+- UX/UI moderna
+- APIs REST
+- Arquitetura escalável
+- Segurança de aplicações financeiras
 
-Crie um MVP completo chamado "CabanaPay", uma plataforma de inclusão financeira baseada na blockchain Solana.
-
-O sistema deve permitir pagamentos rápidos, baratos e transparentes entre usuários da comunidade, utilizando integração com carteira Phantom.
-
----
-
-# Tecnologias Obrigatórias
-
-- Frontend: React + Next.js + TailwindCSS
-- Backend: Node.js
-- Blockchain: Solana Web3.js
-- Carteira: Phantom Wallet
-- Banco de dados opcional: Firebase ou Supabase
-- Deploy preparado para Vercel
+Seu objetivo é criar uma aplicação completa chamada **CabanaPay**, focada em inclusão financeira comunitária utilizando blockchain Solana.
 
 ---
 
-# Estrutura do Projeto
+# 📍 SOBRE O PROJETO
 
-Organize o projeto nas seguintes pastas:
-
-/src
-/components
-/pages
-/services
-/hooks
-/styles
-/contracts
-/utils
+O CabanaPay é uma plataforma de pagamentos comunitários criada para:
+- Facilitar pagamentos rápidos;
+- Permitir doações transparentes;
+- Ajudar pequenos comerciantes;
+- Promover inclusão financeira;
+- Utilizar blockchain Solana para segurança e baixo custo.
 
 ---
 
-# Etapa 1 — Criar Interface Inicial
+# 🎯 OBJETIVO DA APLICAÇÃO
 
-Crie uma tela inicial moderna contendo:
-
-- Logo CabanaPay
-- Saldo do usuário
-- Botões:
-  - Pagar
-  - Receber
-  - Doar
-- Histórico de transações
-- Layout responsivo
-- Tema moderno usando Tailwind
+Criar um MVP funcional contendo:
+- Front-end moderno e responsivo;
+- Integração com Phantom Wallet;
+- Sistema de pagamentos via QR Code;
+- Histórico de transações;
+- Área de doações;
+- Dashboard simples;
+- Arquitetura organizada e escalável.
 
 ---
 
-# Etapa 2 — Integração com Phantom Wallet
+# 🧱 STACK TECNOLÓGICA OBRIGATÓRIA
 
-Implemente:
+## Front-end
+- Next.js 14
+- React
+- TypeScript
+- TailwindCSS
+- Shadcn/UI
+- Lucide Icons
+- Framer Motion
 
-- Conexão com Phantom Wallet
-- Verificação se a carteira está instalada
-- Exibição do endereço conectado
-- Botão de conectar/desconectar
+## Blockchain
+- Solana Web3.js
+- Phantom Wallet Adapter
 
-Utilize Solana Devnet.
+## Back-end
+- Next.js API Routes
+OU
+- Node.js + Express
 
----
+## Banco de Dados
+- PostgreSQL
+OU
+- Supabase
 
-# Etapa 3 — Sistema de Pagamento
-
-Crie fluxo de pagamento:
-
-1. Usuário informa valor
-2. Usuário informa carteira destino
-3. Sistema valida saldo
-4. Transação é enviada
-5. Exibir confirmação
-
-Adicionar:
-- Loading
-- Tratamento de erros
-- Toasts de sucesso
-
----
-
-# Etapa 4 — QR Code
-
-Adicionar geração e leitura de QR Code:
-
-- Gerar QR para recebimento
-- Ler QR para pagamento
-- Interface simples
+## Deploy
+- Vercel
 
 ---
 
-# Etapa 5 — Histórico de Transações
+# 🎨 DESIGN SYSTEM
 
-Criar tela com:
+Criar uma interface:
+- Moderna;
+- Neon futurista;
+- Inspirada em fintechs;
+- Fácil para usuários iniciantes;
+- Responsiva para mobile;
+- Acessível;
+- Minimalista.
 
-- Lista de transações
-- Valor
-- Data
-- Tipo:
-  - pagamento
-  - recebimento
-  - doação
+## Paleta de cores
+- Verde neon
+- Azul escuro
+- Preto
+- Branco
 
-Adicionar filtros simples.
+## Estilo visual
+- Glassmorphism
+- Cards arredondados
+- Animações suaves
+- Gradientes modernos
 
 ---
 
-# Etapa 6 — Sistema de Doações
+# 📱 TELAS OBRIGATÓRIAS
 
-Criar área específica para doações:
+# 1. Landing Page
+Criar:
+- Hero section
+- Explicação do projeto
+- Benefícios
+- Como funciona
+- Botão “Conectar Carteira”
+- Responsividade total
 
+---
+
+# 2. Dashboard
+Exibir:
+- Saldo da carteira
+- Botão pagar
+- Botão receber
 - Botão doar
-- Carteiras comunitárias
-- Transparência das transações
-- Exibir hash da blockchain
+- Histórico de transações
+- Últimas atividades
 
 ---
 
-# Etapa 7 — Segurança
+# 3. Tela de Pagamento
+Permitir:
+- Inserir valor
+- Gerar QR Code
+- Ler QR Code
+- Confirmar pagamento
+- Exibir status da transação
+
+---
+
+# 4. Tela de Doações
+Permitir:
+- Criar campanha
+- Visualizar campanhas
+- Doar utilizando Solana
+- Mostrar transparência das transações
+
+---
+
+# 5. Perfil do Usuário
+Exibir:
+- Carteira conectada
+- Histórico completo
+- Estatísticas
+- Configurações
+
+---
+
+# 🔗 FUNCIONALIDADES BLOCKCHAIN
 
 Implementar:
+- Conexão Phantom Wallet
+- Assinatura de transações
+- Envio de SOL
+- Verificação de saldo
+- Confirmação on-chain
+- Explorer links da Solana
 
+---
+
+# 🔒 SEGURANÇA
+
+Adicionar:
 - Validação de inputs
-- Tratamento de erros
-- Proteção contra valores inválidos
-- Mensagens amigáveis
+- Proteção contra erros de transação
+- Tratamento de falhas
+- Toasts de feedback
+- Loading states
+- Verificações de carteira
 
 ---
 
-# Etapa 8 — UX/UI
+# ⚙️ ESTRUTURA DE PASTAS
 
-O design deve ser:
+Criar arquitetura organizada:
 
-- Minimalista
-- Moderno
-- Acessível
-- Fácil para usuários iniciantes
-
-Utilizar:
-- Cards
-- Sombras suaves
-- Ícones modernos
-- Responsividade mobile-first
-
----
-
-# Etapa 9 — README
-
-Gerar automaticamente README.md contendo:
-
-- Explicação do projeto
-- Tecnologias usadas
-- Como rodar localmente
-- Como conectar Phantom
-- Estrutura do sistema
-
----
-
-# Etapa 10 — Extras
-
-Se possível adicionar:
-
-- Dark mode
-- Internacionalização
-- Dashboard administrativo
-- Estatísticas comunitárias
-- Sistema de autenticação simples
-
----
-
-# Contexto do Projeto
-
-O CabanaPay busca resolver:
-
-- Falta de acesso financeiro
-- Baixa confiança em pagamentos informais
-- Necessidade de transparência comunitária
-
-O foco é inclusão financeira local utilizando blockchain Solana.
-
----
-
-# Resultado Esperado
-
-Gerar:
-
-- Código limpo
-- Componentização correta
-- Comentários importantes
-- Arquitetura escalável
-- MVP funcional
-- Interface bonita e intuitiva
+```bash
+/src
+  /app
+  /components
+  /features
+  /hooks
+  /services
+  /lib
+  /styles
+  /types
+  /utils
