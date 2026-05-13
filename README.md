@@ -5,7 +5,6 @@
 ## 👩‍💻 Autoras
 
 * Maria Eduarda
-* Izabelly Luize
 * Isabelle Christinne
 
 ---
