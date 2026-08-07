@@ -370,3 +370,18 @@ Ao final do Dia 1, o grupo deve possuir:
 A etapa de Descoberta & Ideação permitiu estruturar uma solução voltada para problemas reais da comunidade.
 
 O CabanaPay surge como uma proposta de inclusão financeira utilizando tecnologia blockchain para criar pagamentos rápidos, seguros e transparentes, fortalecendo o comércio local e incentivando a inovação dentro da comunidade.
+
+## Publicação (GitHub Pages)
+
+Uma landing page estática foi adicionada em `docs/` para publicar este repositório via GitHub Pages.
+
+Passos rápidos:
+
+1. Faça commit e push deste repositório para a branch `main`.
+2. No GitHub, acesse *Settings → Pages* e selecione a source `main` e a pasta `/docs` (ou aguarde a Action fazer o deploy para a branch de Pages).
+3. Alternativamente, a Action automática (`.github/workflows/pages.yml`) envia o conteúdo de `docs/` ao GitHub Pages após cada push na `main`.
+
+URL de exemplo (substitua pelos seus dados):
+
+`https://santosmab.github.io/Cabana-Conecta-IA/`
+
