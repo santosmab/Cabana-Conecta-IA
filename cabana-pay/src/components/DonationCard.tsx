@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 import { CommunityWallet } from '@/types';
 import { formatAmount, truncateAddress } from '@/utils/validators';
 import { Heart } from 'lucide-react';
@@ -48,7 +48,7 @@ export const DonationCard: React.FC<DonationCardProps> = ({ wallet, onDonate, is
 
         {/* QR Code */}
         <div className="bg-white p-2 rounded-lg shadow">
-          <QRCode value={qrValue} size={100} level="H" includeMargin={true} />
+          <QRCodeSVG value={qrValue} size={100} level="H" includeMargin={true} />
         </div>
       </div>
 

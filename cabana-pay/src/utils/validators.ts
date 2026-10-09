@@ -5,8 +5,8 @@ export const isValidSolanaAddress = (address: string): boolean => {
   try {
     if (!address || typeof address !== 'string') return false;
     if (address.length !== 44 && address.length !== 43) return false;
-    // Basic validation - Solana addresses are base58 encoded
-    return /^[1-9A-HJ-NP-Z]{43,44}$/.test(address);
+    // Basic validation - Solana addresses are base58 encoded and may include lowercase letters
+    return /^[1-9A-HJ-NP-Za-km-z]{43,44}$/.test(address);
   } catch {
     return false;
   }
