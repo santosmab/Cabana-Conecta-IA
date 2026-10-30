@@ -1,1262 +1,355 @@
-```html
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CabanaPay: tecnologia para conectar pessoas, fortalecer o comércio local e apoiar iniciativas comunitárias.">
+  <title>CabanaPay | Uma comunidade mais conectada</title>
 
-    <title>Cabana Pay | Conectando possibilidades</title>
-
-    <meta
-        name="description"
-        content="Cabana Pay — pagamentos, crédito, benefícios e oportunidades em um só ecossistema."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-    <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+  <header class="header">
+    <a href="#inicio" class="logo-brand" aria-label="CabanaPay, página inicial">
+      <svg class="cabana-logo" viewBox="0 0 560 170" role="img" aria-labelledby="cabanaPayTitle">
+        <title id="cabanaPayTitle">CabanaPay</title>
+        <defs>
+          <linearGradient id="cabanaBlue" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#1d7af9"/>
+            <stop offset="50%" stop-color="#0f5bd8"/>
+            <stop offset="100%" stop-color="#0a2d7c"/>
+          </linearGradient>
+        </defs>
 
-    <header class="header" id="header">
+        <g transform="translate(0, 6)">
+          <rect x="0" y="18" width="110" height="110" rx="28" fill="url(#cabanaBlue)"/>
+          <path d="M22 70L55 36L88 70" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M31 72h48v36H31z" fill="rgba(255,255,255,0.9)"/>
+          <path d="M55 72v-18h12v18" fill="none" stroke="#1d7af9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 112c18-8 32-12 55-12 16 0 31 2 45 8" fill="none" stroke="rgba(255,255,255,0.72)" stroke-width="7" stroke-linecap="round"/>
 
-        <div class="container nav-container">
+          <g transform="translate(140 18)">
+            <text x="0" y="58" font-family="Inter, Segoe UI, sans-serif" font-size="47" font-weight="800" fill="#0b2f7b" letter-spacing="-3">Cabana</text>
+            <text x="180" y="58" font-family="Inter, Segoe UI, sans-serif" font-size="47" font-weight="800" fill="#0a5ee7" letter-spacing="-3">Pay</text>
+            <line x1="0" y1="78" x2="388" y2="78" stroke="#dfeafc" stroke-width="3" stroke-linecap="round"/>
+            <text x="0" y="110" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="600" fill="#5a6e88" letter-spacing="0.5">mais que pagamentos, é comunidade.</text>
+          </g>
+        </g>
+      </svg>
+    </a>
 
-            <a href="#inicio" class="logo">
-                <span class="logo-symbol">
-                    <span></span>
-                </span>
+    <button class="menu-toggle" id="menuToggle"
+      aria-label="Abrir menu" aria-expanded="false"
+      aria-controls="nav">
+      ☰
+    </button>
 
-                <span class="logo-text">
-                    Cabana <strong>Pay</strong>
-                </span>
-            </a>
+    <nav class="nav" id="nav">
+      <a href="#projeto">O projeto</a>
+      <a href="#funciona">Como funciona</a>
+      <a href="#comunidade">Comunidade</a>
+      <a href="#loginDialog" class="nav-button" data-open-login>Login</a>
+    </nav>
 
-
-            <nav class="nav">
-
-                <a href="#inicio" class="nav-link active">Início</a>
-                <a href="#sobre" class="nav-link">Sobre</a>
-                <a href="#recursos" class="nav-link">Recursos</a>
-                <a href="#negocios" class="nav-link">Para negócios</a>
-                <a href="#impacto" class="nav-link">Impacto</a>
-
-            </nav>
-
-
-            <div class="nav-actions">
-
-                <button class="btn btn-outline" onclick="abrirModal('login')">
-                    Entrar
-                </button>
-
-                <button class="btn btn-primary" onclick="abrirModal('cadastro')">
-                    Criar conta
-                </button>
-
-            </div>
-
-
-            <button class="menu-button" onclick="toggleMenu()" aria-label="Abrir menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <!-- =========================
-         MOBILE MENU
-    ========================== -->
-
-    <div class="mobile-menu" id="mobileMenu">
-
-        <a href="#inicio" onclick="toggleMenu()">Início</a>
-        <a href="#sobre" onclick="toggleMenu()">Sobre</a>
-        <a href="#recursos" onclick="toggleMenu()">Recursos</a>
-        <a href="#negocios" onclick="toggleMenu()">Para negócios</a>
-        <a href="#impacto" onclick="toggleMenu()">Impacto</a>
-
-        <div class="mobile-buttons">
-
-            <button class="btn btn-outline" onclick="abrirModal('login'); toggleMenu();">
-                Entrar
-            </button>
-
-            <button class="btn btn-primary" onclick="abrirModal('cadastro'); toggleMenu();">
-                Criar conta
-            </button>
-
-        </div>
-
+    <div class="wallet-account" id="walletAccount" hidden aria-live="polite">
+      <div class="wallet-account-copy">
+        <span class="wallet-account-status"><span class="wallet-status-dot"></span>Carteira conectada</span>
+        <strong id="walletAddress"></strong>
+        <span class="wallet-profile-name" id="walletProfileName" hidden></span>
+      </div>
+      <button class="wallet-profile-button" id="profileAction" type="button">Criar perfil</button>
     </div>
-
-
-    <main>
-
-        <!-- =========================
-             HERO
-        ========================== -->
-
-        <section class="hero" id="inicio">
-
-            <div class="hero-glow glow-one"></div>
-            <div class="hero-glow glow-two"></div>
-
-            <div class="container hero-grid">
-
-                <div class="hero-content">
-
-                    <div class="eyebrow">
-                        <span></span>
-                        MAIS QUE PAGAMENTOS, CONEXÕES.
-                    </div>
-
-                    <h1>
-                        Seu dinheiro.
-                        <span>Seu jeito.</span>
-                        Seu lugar.
-                    </h1>
-
-                    <p>
-                        O Cabana Pay conecta pessoas, negócios e oportunidades
-                        em um ecossistema financeiro simples, acessível e feito
-                        para a vida real.
-                    </p>
-
-                    <div class="hero-buttons">
-
-                        <button class="btn btn-primary btn-large" onclick="abrirModal('cadastro')">
-                            Criar minha conta
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-
-                        <a href="#recursos" class="btn btn-soft btn-large">
-                            Conhecer o Cabana
-                        </a>
-
-                    </div>
-
-                    <div class="hero-trust">
-
-                        <div class="trust-item">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            Segurança
-                        </div>
-
-                        <div class="trust-item">
-                            <i class="fa-solid fa-bolt"></i>
-                            Agilidade
-                        </div>
-
-                        <div class="trust-item">
-                            <i class="fa-solid fa-heart"></i>
-                            Inclusão
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- MOCKUP DO APLICATIVO -->
-
-                <div class="hero-visual">
-
-                    <div class="visual-orbit orbit-one"></div>
-                    <div class="visual-orbit orbit-two"></div>
-
-                    <div class="floating-card floating-top">
-                        <div class="mini-icon">
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </div>
-
-                        <div>
-                            <small>Recebimento</small>
-                            <strong>+ R$ 280,00</strong>
-                        </div>
-                    </div>
-
-
-                    <div class="phone">
-
-                        <div class="phone-top"></div>
-
-                        <div class="app-screen">
-
-                            <div class="app-header">
-
-                                <div>
-                                    <small>Olá, Maria!</small>
-                                    <strong>Minha carteira</strong>
-                                </div>
-
-                                <div class="profile-circle">
-                                    M
-                                </div>
-
-                            </div>
-
-
-                            <div class="balance-box">
-
-                                <div class="balance-label">
-                                    Saldo disponível
-
-                                    <button onclick="toggleBalance()">
-                                        <i class="fa-solid fa-eye" id="balanceIcon"></i>
-                                    </button>
-                                </div>
-
-                                <div class="balance-value" id="balanceValue">
-                                    R$ 1.250,00
-                                </div>
-
-                                <div class="balance-growth">
-                                    <i class="fa-solid fa-arrow-trend-up"></i>
-                                    +8,4% este mês
-                                </div>
-
-                            </div>
-
-
-                            <div class="quick-actions">
-
-                                <button>
-                                    <span><i class="fa-solid fa-qrcode"></i></span>
-                                    Pix
-                                </button>
-
-                                <button>
-                                    <span><i class="fa-solid fa-paper-plane"></i></span>
-                                    Pagar
-                                </button>
-
-                                <button>
-                                    <span><i class="fa-solid fa-arrow-down"></i></span>
-                                    Receber
-                                </button>
-
-                                <button>
-                                    <span><i class="fa-solid fa-credit-card"></i></span>
-                                    Cartão
-                                </button>
-
-                            </div>
-
-
-                            <div class="transactions">
-
-                                <div class="transaction-header">
-                                    <strong>Movimentações</strong>
-                                    <a href="#">Ver todas</a>
-                                </div>
-
-
-                                <div class="transaction">
-                                    <div class="transaction-icon purple">
-                                        <i class="fa-solid fa-basket-shopping"></i>
-                                    </div>
-
-                                    <div class="transaction-info">
-                                        <strong>Mercado Central</strong>
-                                        <small>Hoje, 10:43</small>
-                                    </div>
-
-                                    <strong class="negative">
-                                        - R$ 56,90
-                                    </strong>
-                                </div>
-
-
-                                <div class="transaction">
-                                    <div class="transaction-icon green">
-                                        <i class="fa-solid fa-arrow-down"></i>
-                                    </div>
-
-                                    <div class="transaction-info">
-                                        <strong>Recebimento</strong>
-                                        <small>Hoje, 09:12</small>
-                                    </div>
-
-                                    <strong class="positive">
-                                        + R$ 120,00
-                                    </strong>
-                                </div>
-
-
-                                <div class="transaction">
-                                    <div class="transaction-icon red">
-                                        <i class="fa-solid fa-heart"></i>
-                                    </div>
-
-                                    <div class="transaction-info">
-                                        <strong>Doação</strong>
-                                        <small>Ontem, 17:45</small>
-                                    </div>
-
-                                    <strong class="negative">
-                                        - R$ 25,00
-                                    </strong>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- CARTÃO -->
-
-                    <div class="cabana-card">
-
-                        <div class="card-brand">
-                            <div class="card-symbol">C</div>
-                            <span>Cabana Pay</span>
-                        </div>
-
-                        <div class="chip"></div>
-
-                        <div class="card-number">
-                            •••• &nbsp; •••• &nbsp; •••• &nbsp; 2847
-                        </div>
-
-                        <div class="card-bottom">
-                            <span>MARIA EDUARDA</span>
-                            <span>VISA</span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="floating-card floating-bottom">
-
-                        <div class="mini-icon blue">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
-
-                        <div>
-                            <small>Impacto gerado</small>
-                            <strong>R$ 125,00</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             STRIP DE RECURSOS
-        ========================== -->
-
-        <section class="feature-strip">
-
-            <div class="container feature-grid">
-
-                <div class="feature-mini">
-                    <div class="feature-icon">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-
-                    <div>
-                        <strong>Pagamentos rápidos</strong>
-                        <span>Pix, cartão e muito mais.</span>
-                    </div>
-                </div>
-
-
-                <div class="feature-mini">
-                    <div class="feature-icon">
-                        <i class="fa-solid fa-credit-card"></i>
-                    </div>
-
-                    <div>
-                        <strong>Cartão Cabana</strong>
-                        <span>Liberdade para o seu dia.</span>
-                    </div>
-                </div>
-
-
-                <div class="feature-mini">
-                    <div class="feature-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-
-                    <div>
-                        <strong>Crédito acessível</strong>
-                        <span>Para realizar seus planos.</span>
-                    </div>
-                </div>
-
-
-                <div class="feature-mini">
-                    <div class="feature-icon">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-
-                    <div>
-                        <strong>Impacto social</strong>
-                        <span>Dinheiro que também transforma.</span>
-                    </div>
-                </div>
-
-
-                <div class="feature-mini">
-                    <div class="feature-icon">
-                        <i class="fa-solid fa-store"></i>
-                    </div>
-
-                    <div>
-                        <strong>Rede Cabana</strong>
-                        <span>Fortalecendo negócios locais.</span>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SOBRE
-        ========================== -->
-
-        <section class="section about-section" id="sobre">
-
-            <div class="container about-grid">
-
-                <div class="about-visual">
-
-                    <div class="about-main-card">
-
-                        <div class="map-top">
-                            <span>Rede Cabana</span>
-
-                            <div class="online">
-                                <span></span>
-                                online
-                            </div>
-                        </div>
-
-
-                        <div class="map-area">
-
-                            <div class="map-line line-one"></div>
-                            <div class="map-line line-two"></div>
-                            <div class="map-line line-three"></div>
-
-                            <div class="location-point point-one">
-                                <i class="fa-solid fa-store"></i>
-                            </div>
-
-                            <div class="location-point point-two">
-                                <i class="fa-solid fa-store"></i>
-                            </div>
-
-                            <div class="location-point point-three">
-                                <i class="fa-solid fa-store"></i>
-                            </div>
-
-                            <div class="center-location">
-                                <div class="pulse"></div>
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-
-                        </div>
-
-
-                        <div class="map-footer">
-                            <div>
-                                <strong>248</strong>
-                                <span>negócios conectados</span>
-                            </div>
-
-                            <div>
-                                <strong>12</strong>
-                                <span>cidades</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="section-content">
-
-                    <div class="eyebrow">
-                        <span></span>
-                        UM ECOSSISTEMA
-                    </div>
-
-                    <h2>
-                        Mais inclusão.
-                        <span>Mais possibilidades.</span>
-                    </h2>
-
-                    <p>
-                        O Cabana Pay nasceu para aproximar pessoas, pequenos
-                        negócios e oportunidades. Uma plataforma pensada para
-                        tornar a vida financeira mais simples e conectada.
-                    </p>
-
-                    <div class="check-list">
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Pagamentos simples e seguros
-                        </div>
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Conexão com negócios locais
-                        </div>
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Soluções financeiras acessíveis
-                        </div>
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Impacto positivo na comunidade
-                        </div>
-
-                    </div>
-
-                    <button class="btn btn-primary" onclick="mostrarMensagem('Em breve você poderá conhecer todo o ecossistema Cabana.')">
-                        Conheça o ecossistema
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             RECURSOS
-        ========================== -->
-
-        <section class="section resources-section" id="recursos">
-
-            <div class="container">
-
-                <div class="section-heading center">
-
-                    <div class="eyebrow">
-                        <span></span>
-                        TUDO EM UM SÓ LUGAR
-                    </div>
-
-                    <h2>
-                        Ferramentas que
-                        <span>fazem sentido.</span>
-                    </h2>
-
-                    <p>
-                        Uma experiência financeira construída para acompanhar
-                        diferentes momentos da sua vida.
-                    </p>
-
-                </div>
-
-
-                <div class="resources-grid">
-
-                    <article class="resource-card large">
-
-                        <div class="resource-top">
-                            <div class="resource-icon">
-                                <i class="fa-solid fa-wallet"></i>
-                            </div>
-
-                            <span>01</span>
-                        </div>
-
-                        <h3>Carteira digital</h3>
-
-                        <p>
-                            Tenha controle do seu dinheiro em um só lugar,
-                            acompanhe seus gastos e organize sua vida financeira.
-                        </p>
-
-                        <div class="resource-visual wallet-visual">
-
-                            <div class="mini-wallet">
-                                <small>Saldo</small>
-                                <strong>R$ 2.840,00</strong>
-
-                                <div class="wallet-bar">
-                                    <span></span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="resource-card">
-
-                        <div class="resource-top">
-                            <div class="resource-icon">
-                                <i class="fa-solid fa-qrcode"></i>
-                            </div>
-
-                            <span>02</span>
-                        </div>
-
-                        <h3>Pix inteligente</h3>
-
-                        <p>
-                            Pague e receba em poucos segundos.
-                        </p>
-
-                        <div class="fake-qr">
-                            <div class="qr-pattern"></div>
-                        </div>
-
-                    </article>
-
-
-                    <article class="resource-card">
-
-                        <div class="resource-top">
-                            <div class="resource-icon">
-                                <i class="fa-solid fa-chart-pie"></i>
-                            </div>
-
-                            <span>03</span>
-                        </div>
-
-                        <h3>Controle financeiro</h3>
-
-                        <p>
-                            Entenda para onde seu dinheiro está indo.
-                        </p>
-
-                        <div class="bars">
-
-                            <span style="height: 40%"></span>
-                            <span style="height: 65%"></span>
-                            <span style="height: 50%"></span>
-                            <span style="height: 80%"></span>
-                            <span style="height: 70%"></span>
-                            <span style="height: 95%"></span>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="resource-card">
-
-                        <div class="resource-top">
-                            <div class="resource-icon">
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-
-                            <span>04</span>
-                        </div>
-
-                        <h3>Doações</h3>
-
-                        <p>
-                            Apoie projetos e pessoas que fazem a diferença.
-                        </p>
-
-                        <div class="impact-number">
-                            <strong>R$ 125 mil</strong>
-                            <span>em impacto</span>
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             NEGÓCIOS
-        ========================== -->
-
-        <section class="business-section" id="negocios">
-
-            <div class="container business-grid">
-
-                <div class="business-content">
-
-                    <div class="eyebrow light">
-                        <span></span>
-                        PARA NEGÓCIOS
-                    </div>
-
-                    <h2>
-                        Seu negócio também
-                        <span>faz parte da Cabana.</span>
-                    </h2>
-
-                    <p>
-                        Conecte sua empresa ao ecossistema Cabana Pay,
-                        receba pagamentos, acompanhe suas vendas e alcance
-                        novos clientes.
-                    </p>
-
-                    <div class="business-features">
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Receba por Pix e cartão
-                        </div>
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Acompanhe suas vendas
-                        </div>
-
-                        <div>
-                            <i class="fa-solid fa-check"></i>
-                            Faça parte da rede Cabana
-                        </div>
-
-                    </div>
-
-                    <button
-                        class="btn btn-white"
-                        onclick="mostrarMensagem('Cadastro de comerciante em breve!')"
-                    >
-                        Quero meu negócio no Cabana
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                </div>
-
-
-                <div class="business-dashboard">
-
-                    <div class="dashboard-header">
-
-                        <div>
-                            <small>Visão geral</small>
-                            <strong>Meu negócio</strong>
-                        </div>
-
-                        <div class="dashboard-avatar">
-                            LC
-                        </div>
-
-                    </div>
-
-
-                    <div class="dashboard-balance">
-
-                        <small>Faturamento do mês</small>
-
-                        <strong>R$ 18.420,80</strong>
-
-                        <span>
-                            <i class="fa-solid fa-arrow-up"></i>
-                            14,8% em relação ao mês anterior
-                        </span>
-
-                    </div>
-
-
-                    <div class="dashboard-chart">
-
-                        <div class="chart-lines">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-                        <svg viewBox="0 0 500 180" preserveAspectRatio="none">
-
-                            <defs>
-
-                                <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-
-                                    <stop offset="0%" stop-color="#3b82f6" stop-opacity=".3"/>
-                                    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-
-                                </linearGradient>
-
-                            </defs>
-
-                            <path
-                                d="M0,145 C50,130 65,145 100,115 C140,80 155,125 190,95 C225,65 245,110 280,75 C320,35 340,70 375,45 C420,10 440,50 500,20 L500,180 L0,180 Z"
-                                fill="url(#chartGradient)"
-                            />
-
-                            <path
-                                d="M0,145 C50,130 65,145 100,115 C140,80 155,125 190,95 C225,65 245,110 280,75 C320,35 340,70 375,45 C420,10 440,50 500,20"
-                                fill="none"
-                                stroke="#3b82f6"
-                                stroke-width="4"
-                            />
-
-                        </svg>
-
-                    </div>
-
-
-                    <div class="dashboard-footer">
-
-                        <div>
-                            <small>Vendas</small>
-                            <strong>328</strong>
-                        </div>
-
-                        <div>
-                            <small>Ticket médio</small>
-                            <strong>R$ 56,16</strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             IMPACTO
-        ========================== -->
-
-        <section class="section impact-section" id="impacto">
-
-            <div class="container impact-grid">
-
-                <div class="impact-image">
-
-                    <div class="impact-phone">
-
-                        <div class="impact-phone-screen">
-
-                            <div class="impact-brand">
-                                <div class="card-symbol">C</div>
-                                Cabana Pay
-                            </div>
-
-                            <div class="impact-message">
-                                <small>Seu impacto</small>
-                                <strong>começa aqui.</strong>
-                            </div>
-
-                            <div class="impact-circle">
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-
-                            <div class="impact-stat">
-                                <span>Você já ajudou</span>
-                                <strong>12 projetos</strong>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="impact-bubble bubble-one">
-                        <i class="fa-solid fa-heart"></i>
-                        Educação
-                    </div>
-
-                    <div class="impact-bubble bubble-two">
-                        <i class="fa-solid fa-leaf"></i>
-                        Meio ambiente
-                    </div>
-
-                </div>
-
-
-                <div class="impact-content">
-
-                    <div class="eyebrow">
-                        <span></span>
-                        DINHEIRO COM PROPÓSITO
-                    </div>
-
-                    <h2>
-                        Quando você movimenta
-                        <span>seu dinheiro, algo muda.</span>
-                    </h2>
-
-                    <p>
-                        O Cabana acredita que tecnologia financeira também
-                        pode gerar impacto. Por isso, criamos caminhos para
-                        conectar pessoas a iniciativas que transformam suas
-                        comunidades.
-                    </p>
-
-
-                    <div class="impact-stats">
-
-                        <div>
-                            <strong>+12 mil</strong>
-                            <span>pessoas alcançadas</span>
-                        </div>
-
-                        <div>
-                            <strong>+340</strong>
-                            <span>negócios conectados</span>
-                        </div>
-
-                        <div>
-                            <strong>+R$ 125 mil</strong>
-                            <span>em impacto</span>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CTA
-        ========================== -->
-
-        <section class="cta-section">
-
-            <div class="cta-glow"></div>
-
-            <div class="container cta-content">
-
-                <div class="cta-icon">
-                    <span>C</span>
-                </div>
-
-                <h2>
-                    O próximo passo
-                    <span>começa com você.</span>
-                </h2>
-
-                <p>
-                    Entre para o Cabana Pay e faça parte de um ecossistema
-                    criado para conectar possibilidades.
-                </p>
-
-                <button class="btn btn-white btn-large" onclick="abrirModal('cadastro')">
-                    Criar minha conta
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer class="footer">
-
-        <div class="container footer-grid">
-
-            <div class="footer-brand">
-
-                <a href="#inicio" class="logo footer-logo">
-
-                    <span class="logo-symbol">
-                        <span></span>
-                    </span>
-
-                    <span class="logo-text">
-                        Cabana <strong>Pay</strong>
-                    </span>
-
-                </a>
-
-                <p>
-                    Conectando pessoas, negócios e oportunidades.
-                </p>
-
-                <div class="socials">
-
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-github"></i></a>
-
-                </div>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h4>Cabana</h4>
-
-                <a href="#sobre">Sobre nós</a>
-                <a href="#recursos">Recursos</a>
-                <a href="#impacto">Impacto</a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h4>Para você</h4>
-
-                <a href="#">Conta digital</a>
-                <a href="#">Cartão</a>
-                <a href="#">Pix</a>
-                <a href="#">Benefícios</a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h4>Para negócios</h4>
-
-                <a href="#negocios">Seja parceiro</a>
-                <a href="#">Maquininha</a>
-                <a href="#">Pagamentos</a>
-                <a href="#">Suporte</a>
-
-            </div>
-
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <span class="eyebrow">
+          TECNOLOGIA COM PROPÓSITO
+        </span>
+
+        <h1>
+          A tecnologia aproxima.
+          A comunidade
+          <span>transforma.</span>
+        </h1>
+
+        <p class="hero-description">
+          Um ecossistema de pagamentos digitais pensado para fortalecer
+          laços, apoiar o comércio local e transformar ações simples em
+          impacto real para toda a comunidade.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#loginDialog" class="button button-primary" data-open-login>
+            Login <span>→</span>
+          </a>
+
+          <a href="#projeto" class="button button-link">
+            Conheça o projeto ↗
+          </a>
         </div>
 
+        <div class="trust-note">
+          <span>✳</span>
+          Uma ideia para fortalecer vínculos, negócios e oportunidades.
+        </div>
+      </div>
 
-        <div class="container footer-bottom">
+      <div class="hero-visual" aria-label="Ilustração de pagamentos digitais">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
 
-            <span>
-                © 2026 Cabana Pay. Todos os direitos reservados.
-            </span>
-
-            <div>
-                <a href="#">Privacidade</a>
-                <a href="#">Termos de uso</a>
-            </div>
-
+        <div class="floating-card card-payment">
+          <span class="card-icon">✓</span>
+          <div>
+            <strong>Pagamentos digitais</strong>
+            <p>Praticidade no seu dia a dia.</p>
+          </div>
         </div>
 
-    </footer>
+        <div class="phone">
+          <div class="phone-camera"></div>
 
+          <div class="phone-brand">
+            <span class="mini-logo">⌂</span>
+            <strong>Cabana<span>Pay</span></strong>
+          </div>
 
-    <!-- =========================
-         MODAL
-    ========================== -->
+          <p class="phone-greeting">Olá! 👋</p>
+          <h3>Vamos conectar você?</h3>
 
-    <div class="modal-overlay" id="modal">
-
-        <div class="modal">
-
-            <button class="modal-close" onclick="fecharModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-
-            <div class="modal-logo">
-                <span>C</span>
+          <div class="qr-card">
+            <span class="qr-label">PAGAMENTO DIGITAL</span>
+            <div class="qr-placeholder" aria-hidden="true">
+              <svg viewBox="0 0 100 100" fill="none">
+                <rect x="4" y="4" width="32" height="32" rx="2" stroke="currentColor" stroke-width="7"/>
+                <rect x="13" y="13" width="14" height="14" fill="currentColor"/>
+                <rect x="64" y="4" width="32" height="32" rx="2" stroke="currentColor" stroke-width="7"/>
+                <rect x="73" y="13" width="14" height="14" fill="currentColor"/>
+                <rect x="4" y="64" width="32" height="32" rx="2" stroke="currentColor" stroke-width="7"/>
+                <rect x="13" y="73" width="14" height="14" fill="currentColor"/>
+                <path d="M45 5h12v12H45z M45 25h12v12H45z M42 45h15v12H42z M63 43h10v10H63z M82 43h14v14H82z M44 65h12v12H44z M63 63h12v12H63z M82 65h14v12H82z M44 84h12v12H44z M64 83h10v13H64z M83 84h13v12H83z" fill="currentColor"/>
+              </svg>
             </div>
+            <span class="qr-caption">Simples. Digital. Conectado.</span>
+          </div>
 
-
-            <div class="modal-content">
-
-                <div id="loginContent">
-
-                    <div class="modal-heading">
-
-                        <span>Bem-vinda de volta</span>
-
-                        <h2>Entrar no Cabana</h2>
-
-                        <p>
-                            Acesse sua conta para continuar.
-                        </p>
-
-                    </div>
-
-
-                    <form onsubmit="login(event)">
-
-                        <label>
-                            E-mail
-
-                            <input
-                                type="email"
-                                id="loginEmail"
-                                placeholder="seu@email.com"
-                                required
-                            >
-
-                        </label>
-
-
-                        <label>
-                            Senha
-
-                            <input
-                                type="password"
-                                id="loginPassword"
-                                placeholder="Digite sua senha"
-                                required
-                            >
-
-                        </label>
-
-
-                        <button class="btn btn-primary full" type="submit">
-                            Entrar
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-
-                    </form>
-
-
-                    <p class="modal-switch">
-                        Ainda não possui uma conta?
-
-                        <button onclick="trocarModal('cadastro')">
-                            Criar conta
-                        </button>
-                    </p>
-
-                </div>
-
-
-                <div id="cadastroContent" style="display:none;">
-
-                    <div class="modal-heading">
-
-                        <span>Comece sua jornada</span>
-
-                        <h2>Criar conta</h2>
-
-                        <p>
-                            Faça parte do ecossistema Cabana.
-                        </p>
-
-                    </div>
-
-
-                    <form onsubmit="cadastro(event)">
-
-                        <label>
-                            Nome completo
-
-                            <input
-                                type="text"
-                                id="cadastroNome"
-                                placeholder="Seu nome"
-                                required
-                            >
-
-                        </label>
-
-
-                        <label>
-                            E-mail
-
-                            <input
-                                type="email"
-                                id="cadastroEmail"
-                                placeholder="seu@email.com"
-                                required
-                            >
-
-                        </label>
-
-
-                        <label>
-                            Senha
-
-                            <input
-                                type="password"
-                                id="cadastroPassword"
-                                placeholder="Crie uma senha"
-                                required
-                            >
-
-                        </label>
-
-
-                        <button class="btn btn-primary full" type="submit">
-                            Criar minha conta
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-
-                    </form>
-
-
-                    <p class="modal-switch">
-                        Já possui uma conta?
-
-                        <button onclick="trocarModal('login')">
-                            Entrar
-                        </button>
-                    </p>
-
-                </div>
-
-            </div>
-
+          <div class="phone-bottom">
+            <span>⌂<small>Início</small></span>
+            <span>◇<small>Pagamentos</small></span>
+            <span>♡<small>Comunidade</small></span>
+          </div>
         </div>
 
+        <div class="floating-card card-community">
+          <span class="community-icon">♡</span>
+          <strong>Impacto local</strong>
+          <p>Pequenas ações podem gerar grandes mudanças.</p>
+        </div>
+
+        <div class="decor decor-one"></div>
+        <div class="decor decor-two"></div>
+      </div>
+    </section>
+
+    <section class="benefits section" id="projeto">
+      <div class="section-heading">
+        <span class="eyebrow">POR QUE CABANAPAY?</span>
+        <h2>Mais do que pagamentos.<br>
+          <span>Uma rede de oportunidades.</span>
+        </h2>
+        <p>
+          Queremos aproximar pessoas, fortalecer pequenos negócios
+          e dar visibilidade a iniciativas que ajudam a comunidade a crescer com dignidade e pertencimento.
+        </p>
+      </div>
+
+      <div class="benefit-grid" id="funciona">
+        <article class="benefit-card">
+          <div class="benefit-icon">↗</div>
+          <h3>Pagamentos que cuidam da comunidade</h3>
+          <p>
+            Facilita transações simples e seguras para moradores,
+            empreendedores e grupos que querem circular com mais confiança.
+          </p>
+          <a href="#participar">Descubra mais <span>→</span></a>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon">⌂</div>
+          <h3>Comércio local com propósito</h3>
+          <p>
+            Damos apoio real para pequenos negócios, fortalecendo a economia
+            local e criando mais laços entre quem vive e trabalha no território.
+          </p>
+          <a href="#participar">Faça parte <span>→</span></a>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon">♡</div>
+          <h3>Impacto social concreto</h3>
+          <p>
+            Conectamos iniciativas, pessoas e projetos que fazem a diferença,
+            ajudando a construir uma comunidade mais colaborativa e resiliente.
+          </p>
+          <a href="#comunidade">Saiba mais <span>→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="community-map section" id="mapa">
+      <div class="section-heading">
+        <span class="eyebrow">TERRITÓRIO, PERTENCIMENTO E CONEXÃO</span>
+        <h2>Um projeto pensado para a <span>geografia da comunidade</span>.</h2>
+        <p>
+          O CabanaPay nasce no coração do Cabana, reconhecendo os caminhos, os pontos de encontro
+          e as áreas que fazem a região ganhar vida, identidade e confiança.
+        </p>
+      </div>
+
+      <div class="map-shell">
+        <div class="map-illustration" aria-label="Mapa ilustrado da comunidade do Cabana">
+          <div class="map-compass" aria-hidden="true">N</div>
+          <div class="map-coords" aria-hidden="true">S 08° • W 15°</div>
+
+          <span class="map-marker map-marker--center">Cabana</span>
+          <span class="map-marker map-marker--one">Mercado</span>
+          <span class="map-marker map-marker--two">Escola</span>
+          <span class="map-marker map-marker--three">Praça</span>
+          <span class="map-marker map-marker--four">Moradores</span>
+
+          <div class="map-road road-a"></div>
+          <div class="map-road road-b"></div>
+          <div class="map-road road-c"></div>
+        </div>
+
+        <div class="map-notes">
+          <div class="map-note">
+            <strong>Confiança local</strong>
+            <p>Quando a comunidade reconhece o lugar, o projeto ganha legitimidade e acolhimento no mapa da vida local.</p>
+          </div>
+
+          <div class="map-note">
+            <strong>Conexão real</strong>
+            <p>O CabanaPay conecta moradores, pequenas lojas, caminhos de rotina e oportunidades que fazem parte do território.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="community" id="comunidade">
+      <div class="community-symbol">⌂</div>
+      <div>
+        <span class="eyebrow">O FUTURO É FEITO EM CONJUNTO</span>
+        <h2>Uma comunidade mais conectada começa com você.</h2>
+        <p>
+          Cada pessoa, cada negócio e cada iniciativa tem um papel importante
+          na construção de um território mais forte, mais justo e mais unido.
+        </p>
+      </div>
+      <a href="#participar" class="button button-light">
+        Vamos juntos? →
+      </a>
+    </section>
+
+    <section class="join section" id="participar">
+      <span class="eyebrow">SEU LUGAR É AQUI</span>
+      <h2>Faça parte dessa história.</h2>
+      <p>
+        Você é morador, comerciante ou apoiador da comunidade? O CabanaPay foi
+        pensado para conectar pessoas, fortalecer o comércio local e criar
+        oportunidades de crescimento com impacto real no território.
+      </p>
+
+      <div class="join-actions">
+        <button class="button button-primary" data-role="morador">
+          Sou morador
+        </button>
+        <button class="button button-outline" data-role="comerciante">
+          Sou comerciante
+        </button>
+        <button class="button button-outline" data-role="comércio local">
+          Quero fazer parte do comércio local
+        </button>
+      </div>
+
+      <p class="join-message" id="joinMessage" aria-live="polite"></p>
+      <p class="development-note">
+        Estamos construindo o CabanaPay. Em breve, novas formas
+        de participar estarão disponíveis.
+      </p>
+    </section>
+  </main>
+
+  <dialog class="login-dialog" id="loginDialog" aria-labelledby="loginTitle">
+    <div class="login-panel">
+      <button class="login-close" type="button" data-close-login aria-label="Fechar login">×</button>
+      <span class="eyebrow">ACESSO CABANAPAY</span>
+      <h2 id="loginTitle">Entrar no CabanaPay</h2>
+      <p class="login-description" id="loginDescription">
+        Acesse sua conta para acompanhar sua participação na comunidade.
+      </p>
+
+      <div class="login-tabs" role="group" aria-label="Opções de acesso">
+        <button class="login-tab" type="button" data-wallet-mode="login" aria-pressed="true">Entrar</button>
+        <button class="login-tab" type="button" data-wallet-mode="register" aria-pressed="false">Criar conta</button>
+      </div>
+
+      <div class="wallet-access">
+        <button class="button button-primary login-submit" id="phantomConnect" type="button">Entrar com Phantom</button>
+        <p class="wallet-feedback" id="loginFeedback" aria-live="polite"></p>
+        <button class="login-disconnect" id="phantomDisconnect" type="button" hidden>Desconectar carteira</button>
+        <a class="login-install" id="phantomInstall" href="https://phantom.app/download" target="_blank" rel="noreferrer" hidden>Instalar Phantom</a>
+      </div>
+
+      <p class="login-note">A conexão revela apenas o endereço público e não envia transações. Para autenticar uma conta CabanaPay, ainda é necessária a validação de assinatura no servidor.</p>
     </div>
+  </dialog>
 
+  <dialog class="profile-dialog" id="profileDialog" aria-labelledby="profileTitle">
+    <div class="login-panel">
+      <button class="login-close" type="button" data-close-profile aria-label="Fechar perfil">×</button>
+      <span class="eyebrow">SEU ESPAÇO NO CABANAPAY</span>
+      <h2 id="profileTitle">Criar perfil</h2>
+      <p class="login-description">Complete seus dados para personalizar sua participação na comunidade.</p>
+      <p class="profile-wallet" id="profileWallet"></p>
 
-    <!-- =========================
-         TOAST
-    ========================== -->
-
-    <div class="toast" id="toast">
-
-        <div class="toast-icon">
-            <i class="fa-solid fa-check"></i>
+      <form class="profile-form" id="profileForm">
+        <div class="profile-field">
+          <label for="profileNameInput">Como podemos chamar você?</label>
+          <input id="profileNameInput" name="name" type="text" autocomplete="name" maxlength="60" required>
         </div>
-
-        <div>
-            <strong>Cabana Pay</strong>
-            <span id="toastMessage">
-                Ação realizada.
-            </span>
+        <div class="profile-field">
+          <label for="profileType">Como você participa?</label>
+          <select id="profileType" name="type" required>
+            <option value="morador">Morador(a)</option>
+            <option value="comerciante">Comerciante</option>
+            <option value="apoiador">Apoiador(a) da comunidade</option>
+          </select>
         </div>
+        <button class="button button-primary login-submit" type="submit">Salvar perfil</button>
+        <p class="profile-feedback" id="profileFeedback" aria-live="polite"></p>
+      </form>
 
+      <p class="login-note">O perfil fica salvo neste navegador e associado ao endereço público da carteira. Não salvamos chaves privadas.</p>
     </div>
+  </dialog>
 
-
-    <script src="script.js"></script>
+  <footer class="footer">
+    <a href="#inicio" class="logo">
+      <span class="logo-icon">⌂</span>
+      Cabana<span>Pay</span>
+    </a>
+    <p>Tecnologia que conecta. Comunidade que transforma.</p>
+    <span class="copyright">© 2026 CabanaPay</span>
+  </footer>
 
 </body>
 </html>
-```

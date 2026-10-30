@@ -1,341 +1,275 @@
-/* =========================================
-   CABANA PAY
-   SCRIPT.JS
-========================================= */
+const menuToggle = document.querySelector("#menuToggle");
+const nav = document.querySelector("#nav");
+const joinMessage = document.querySelector("#joinMessage");
+const loginDialog = document.querySelector("#loginDialog");
+const loginFeedback = document.querySelector("#loginFeedback");
+const loginTitle = document.querySelector("#loginTitle");
+const loginDescription = document.querySelector("#loginDescription");
+const phantomConnect = document.querySelector("#phantomConnect");
+const phantomDisconnect = document.querySelector("#phantomDisconnect");
+const phantomInstall = document.querySelector("#phantomInstall");
+const walletAccount = document.querySelector("#walletAccount");
+const walletAddressLabel = document.querySelector("#walletAddress");
+const walletProfileName = document.querySelector("#walletProfileName");
+const profileAction = document.querySelector("#profileAction");
+const profileDialog = document.querySelector("#profileDialog");
+const profileTitle = document.querySelector("#profileTitle");
+const profileWallet = document.querySelector("#profileWallet");
+const profileForm = document.querySelector("#profileForm");
+const profileFeedback = document.querySelector("#profileFeedback");
 
+if (menuToggle && nav) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
 
-/* =========================================
-   HEADER AO ROLAR
-========================================= */
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Fechar menu" : "Abrir menu"
+    );
+    menuToggle.textContent = isOpen ? "✕" : "☰";
+  });
 
-const header = document.getElementById("header");
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Abrir menu");
+      menuToggle.textContent = "☰";
+    });
+  });
+}
 
-window.addEventListener("scroll", () => {
+document.querySelectorAll("[data-role]").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!joinMessage) return;
 
-    if (window.scrollY > 30) {
-        header.classList.add("scrolled");
-    } else {
-        header.classList.remove("scrolled");
-    }
-
+    const role = button.dataset.role;
+    joinMessage.textContent =
+      `Que bom ter você aqui! Você selecionou: ${role}. ` +
+      "O cadastro será disponibilizado na próxima etapa.";
+    joinMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
 });
 
+if (
+  loginDialog &&
+  loginFeedback &&
+  loginTitle &&
+  loginDescription &&
+  phantomConnect &&
+  phantomDisconnect &&
+  phantomInstall &&
+  walletAccount &&
+  walletAddressLabel &&
+  walletProfileName &&
+  profileAction &&
+  profileDialog &&
+  profileTitle &&
+  profileWallet &&
+  profileForm &&
+  profileFeedback
+) {
+  const loginTriggers = document.querySelectorAll("[data-open-login]");
+  const profileNameInput = profileForm.elements.name;
+  const profileTypeInput = profileForm.elements.type;
+  const profileTypes = {
+    morador: "Morador(a)",
+    comerciante: "Comerciante",
+    apoiador: "Apoiador(a)"
+  };
+  let loginMode = "login";
+  let activeWalletAddress = "";
+  let observedProvider = null;
 
-/* =========================================
-   MENU MOBILE
-========================================= */
+  const getPhantomProvider = () => window.phantom?.solana || window.solana;
+  const profileKey = (address) => `cabanaPayProfile:${address}`;
 
-function toggleMenu() {
+  const readProfile = (address) => {
+    try {
+      return JSON.parse(localStorage.getItem(profileKey(address)) || "null");
+    } catch {
+      return null;
+    }
+  };
 
-    const menu = document.getElementById("mobileMenu");
+  const renderWalletState = () => {
+    const provider = getPhantomProvider();
+    const providerAddress = provider?.isConnected ? provider.publicKey?.toString() : "";
+    const publicKey = providerAddress || activeWalletAddress;
 
-    menu.classList.toggle("open");
+    if (providerAddress) activeWalletAddress = providerAddress;
 
-}
+    walletAccount.hidden = !publicKey;
+    loginTriggers.forEach((trigger) => {
+      trigger.hidden = Boolean(publicKey);
+    });
+    phantomDisconnect.hidden = !publicKey;
+    phantomInstall.hidden = Boolean(provider?.isPhantom);
 
+    if (publicKey) {
+      const shortAddress = `${publicKey.slice(0, 4)}...${publicKey.slice(-4)}`;
+      const profile = readProfile(publicKey);
+      walletAddressLabel.textContent = shortAddress;
+      walletProfileName.hidden = !profile;
+      walletProfileName.textContent = profile
+        ? `${profile.name} · ${profileTypes[profile.type] || "Comunidade"}`
+        : "";
+      profileAction.textContent = profile ? "Editar perfil" : "Criar perfil";
 
-/* =========================================
-   MODAL
-========================================= */
-
-function abrirModal(tipo) {
-
-    const modal = document.getElementById("modal");
-
-    modal.classList.add("active");
-
-    trocarModal(tipo);
-
-    document.body.style.overflow = "hidden";
-
-}
-
-
-function fecharModal() {
-
-    const modal = document.getElementById("modal");
-
-    modal.classList.remove("active");
-
-    document.body.style.overflow = "";
-
-}
-
-
-function trocarModal(tipo) {
-
-    const login = document.getElementById("loginContent");
-    const cadastro = document.getElementById("cadastroContent");
-
-    if (tipo === "login") {
-
-        login.style.display = "block";
-        cadastro.style.display = "none";
-
+      loginFeedback.textContent = loginMode === "register"
+        ? `Carteira conectada: ${shortAddress}. O perfil pode ser criado no CabanaPay.`
+        : `Carteira conectada: ${shortAddress}. A validação segura da conta depende do servidor CabanaPay.`;
+      loginFeedback.dataset.state = "success";
+    } else if (!provider?.isPhantom) {
+      loginFeedback.textContent = "A carteira Phantom não foi detectada. Instale a extensão para continuar.";
+      loginFeedback.dataset.state = "error";
     } else {
-
-        login.style.display = "none";
-        cadastro.style.display = "block";
-
+      loginFeedback.textContent = "Conecte sua carteira Phantom para continuar.";
+      loginFeedback.dataset.state = "info";
     }
+  };
 
-}
+  const observeProvider = (provider) => {
+    if (!provider || provider === observedProvider) return;
 
+    observedProvider = provider;
+    provider.on?.("accountChanged", (publicKey) => {
+      activeWalletAddress = publicKey?.toString() || "";
+      renderWalletState();
+    });
+    provider.on?.("disconnect", () => {
+      activeWalletAddress = "";
+      renderWalletState();
+    });
+  };
 
-/* Fechar clicando fora */
+  const setLoginMode = (mode) => {
+    loginMode = mode;
+    loginDialog.querySelectorAll("[data-wallet-mode]").forEach((tab) => {
+      tab.setAttribute("aria-pressed", String(tab.dataset.walletMode === mode));
+    });
 
-document.getElementById("modal").addEventListener("click", function(event) {
-
-    if (event.target === this) {
-        fecharModal();
-    }
-
-});
-
-
-/* Fechar com ESC */
-
-document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape") {
-        fecharModal();
-    }
-
-});
-
-
-/* =========================================
-   SALDO
-========================================= */
-
-let saldoVisivel = true;
-
-
-function toggleBalance() {
-
-    const balance = document.getElementById("balanceValue");
-    const icon = document.getElementById("balanceIcon");
-
-    saldoVisivel = !saldoVisivel;
-
-
-    if (saldoVisivel) {
-
-        balance.textContent = "R$ 1.250,00";
-
-        icon.className =
-            "fa-solid fa-eye";
-
+    if (mode === "register") {
+      loginTitle.textContent = "Criar conta no CabanaPay";
+      loginDescription.textContent = "Use sua carteira Phantom para iniciar seu cadastro no CabanaPay.";
+      phantomConnect.textContent = "Criar conta com Phantom";
     } else {
-
-        balance.textContent = "R$ ••••••";
-
-        icon.className =
-            "fa-solid fa-eye-slash";
-
+      loginTitle.textContent = "Entrar no CabanaPay";
+      loginDescription.textContent = "Acesse sua conta conectando a carteira Phantom vinculada ao CabanaPay.";
+      phantomConnect.textContent = "Entrar com Phantom";
     }
 
-}
+    renderWalletState();
+  };
 
+  const openProfile = () => {
+    if (!activeWalletAddress) return;
 
-/* =========================================
-   LOGIN
-========================================= */
+    const profile = readProfile(activeWalletAddress);
+    profileTitle.textContent = profile ? "Editar perfil" : "Criar perfil";
+    profileWallet.textContent = `Carteira: ${activeWalletAddress}`;
+    profileNameInput.value = profile?.name || "";
+    profileTypeInput.value = profile?.type || "morador";
+    profileFeedback.textContent = "";
+    if (!profileDialog.open) profileDialog.showModal();
+  };
 
-function login(event) {
+  loginTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      const provider = getPhantomProvider();
+      observeProvider(provider);
+      activeWalletAddress = provider?.isConnected ? provider.publicKey?.toString() || "" : "";
+      setLoginMode("login");
+      if (!loginDialog.open) loginDialog.showModal();
+    });
+  });
 
+  loginDialog.querySelectorAll("[data-wallet-mode]").forEach((button) => {
+    button.addEventListener("click", () => setLoginMode(button.dataset.walletMode));
+  });
+
+  loginDialog.querySelector("[data-close-login]")?.addEventListener("click", () => {
+    loginDialog.close();
+  });
+
+  loginDialog.addEventListener("click", (event) => {
+    if (event.target === loginDialog) loginDialog.close();
+  });
+
+  phantomConnect.addEventListener("click", async () => {
+    const provider = getPhantomProvider();
+
+    if (!provider?.isPhantom) {
+      renderWalletState();
+      return;
+    }
+
+    phantomConnect.disabled = true;
+    phantomConnect.textContent = "Aguardando Phantom...";
+
+    try {
+      const response = await provider.connect();
+      activeWalletAddress = response.publicKey?.toString() || provider.publicKey?.toString() || "";
+      observeProvider(provider);
+      renderWalletState();
+      loginDialog.close();
+      window.scrollTo({ top: 0, behavior: "instant" });
+    } catch (error) {
+      loginFeedback.textContent = error?.code === 4001
+        ? "A conexão foi cancelada na Phantom."
+        : "Não foi possível conectar à Phantom. Tente novamente.";
+      loginFeedback.dataset.state = "error";
+    } finally {
+      phantomConnect.disabled = false;
+      phantomConnect.textContent = loginMode === "register"
+        ? "Criar conta com Phantom"
+        : "Entrar com Phantom";
+    }
+  });
+
+  phantomDisconnect.addEventListener("click", async () => {
+    try {
+      await getPhantomProvider()?.disconnect();
+      activeWalletAddress = "";
+      renderWalletState();
+      loginFeedback.textContent = "Carteira desconectada.";
+      loginFeedback.dataset.state = "info";
+    } catch {
+      loginFeedback.textContent = "Não foi possível desconectar a carteira.";
+      loginFeedback.dataset.state = "error";
+    }
+  });
+
+  profileAction.addEventListener("click", openProfile);
+  profileDialog.querySelector("[data-close-profile]")?.addEventListener("click", () => {
+    profileDialog.close();
+  });
+  profileDialog.addEventListener("click", (event) => {
+    if (event.target === profileDialog) profileDialog.close();
+  });
+
+  profileForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    const profile = {
+      name: profileNameInput.value.trim(),
+      type: profileTypeInput.value
+    };
 
-    const email =
-        document.getElementById("loginEmail").value;
-
-    if (!email) {
-        return;
+    try {
+      localStorage.setItem(profileKey(activeWalletAddress), JSON.stringify(profile));
+      renderWalletState();
+      profileDialog.close();
+    } catch {
+      profileFeedback.textContent = "Não foi possível salvar o perfil neste navegador.";
     }
+  });
 
-    fecharModal();
+  loginDialog.addEventListener("close", () => setLoginMode("login"));
 
-    mostrarMensagem(
-        "Login demonstrativo realizado com sucesso!"
-    );
-
+  const provider = getPhantomProvider();
+  observeProvider(provider);
+  activeWalletAddress = provider?.isConnected ? provider.publicKey?.toString() || "" : "";
+  renderWalletState();
 }
-
-
-/* =========================================
-   CADASTRO
-========================================= */
-
-function cadastro(event) {
-
-    event.preventDefault();
-
-    const nome =
-        document.getElementById("cadastroNome").value;
-
-    if (!nome) {
-        return;
-    }
-
-    fecharModal();
-
-    mostrarMensagem(
-        `Conta de ${nome.split(" ")[0]} criada no modo demonstração!`
-    );
-
-}
-
-
-/* =========================================
-   TOAST
-========================================= */
-
-let toastTimer;
-
-
-function mostrarMensagem(mensagem) {
-
-    const toast =
-        document.getElementById("toast");
-
-    const toastMessage =
-        document.getElementById("toastMessage");
-
-    toastMessage.textContent = mensagem;
-
-    toast.classList.add("show");
-
-
-    clearTimeout(toastTimer);
-
-
-    toastTimer = setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 3500);
-
-}
-
-
-/* =========================================
-   ANIMAÇÃO AO ENTRAR NA TELA
-========================================= */
-
-const observer =
-    new IntersectionObserver(
-        (entries) => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("visible");
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.12
-        }
-    );
-
-
-document
-    .querySelectorAll(
-        ".resource-card, .feature-mini, .about-main-card, .business-dashboard, .impact-phone"
-    )
-    .forEach(element => {
-
-        observer.observe(element);
-
-    });
-
-
-/* =========================================
-   LINKS DA NAV
-========================================= */
-
-const sections =
-    document.querySelectorAll("section[id]");
-
-const navLinks =
-    document.querySelectorAll(".nav-link");
-
-
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const sectionTop =
-            section.offsetTop - 180;
-
-        if (window.scrollY >= sectionTop) {
-
-            current =
-                section.getAttribute("id");
-
-        }
-
-    });
-
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (
-            link.getAttribute("href") ===
-            `#${current}`
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-
-
-/* =========================================
-   BOTÕES DEMONSTRATIVOS
-========================================= */
-
-document
-    .querySelectorAll(".quick-actions button")
-    .forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const nome =
-                button.innerText.trim();
-
-            mostrarMensagem(
-                `${nome} — funcionalidade em desenvolvimento.`
-            );
-
-        });
-
-    });
-
-
-/* =========================================
-   PREVENIR LINKS # DE RECARREGAR
-========================================= */
-
-document
-    .querySelectorAll('a[href="#"]')
-    .forEach(link => {
-
-        link.addEventListener("click", event => {
-
-            event.preventDefault();
-
-        });
-
-    });
