@@ -273,3 +273,261 @@ if (
   activeWalletAddress = provider?.isConnected ? provider.publicKey?.toString() || "" : "";
   renderWalletState();
 }
+
+const territoryMap = document.querySelector("#territoryMap");
+const placeList = document.querySelector("#placeList");
+const mapSource = document.querySelector("#mapSource");
+const territoryLegend = document.querySelector("#territoryLegend");
+const buyResult = document.querySelector("#buyResult");
+const receiveWallet = document.querySelector("#receiveWallet");
+const receiveWalletAddress = document.querySelector("#receiveWalletAddress");
+const copyReceiveWallet = document.querySelector("#copyReceiveWallet");
+
+const ringContains = (lon, lat, ring) => {
+  let inside = false;
+
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i];
+    const [xj, yj] = ring[j];
+    const crosses = (yi > lat) !== (yj > lat);
+    const xAtLat = ((xj - xi) * (lat - yi)) / (yj - yi) + xi;
+
+    if (crosses && lon < xAtLat) inside = !inside;
+  }
+
+  return inside;
+};
+
+const insideTerritory = (lon, lat, rings) => {
+  const [outer, ...holes] = rings;
+  return ringContains(lon, lat, outer) && holes.every((hole) => !ringContains(lon, lat, hole));
+};
+
+const reais = (valor) => valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+if (territoryMap && placeList && mapSource) {
+  const showMapError = (message) => {
+    territoryMap.textContent = message;
+  };
+
+  if (!window.L) {
+    showMapError("O mapa não carregou. Verifique a conexão e atualize a página.");
+  } else {
+    const fontes = [
+      { url: "data/cabana.json", cor: "#c4622d", corEscura: "#8a3e12" },
+      { url: "data/madre-gertrudes.json", cor: "#1765e9", corEscura: "#1049b3" },
+      { url: "data/coracao-eucaristico.json", cor: "#1f7a4d", corEscura: "#145c38" }
+    ];
+
+    Promise.all(fontes.map((fonte) =>
+      fetch(fonte.url).then((response) => {
+        if (!response.ok) throw new Error(fonte.url);
+        return response.json().then((cadastro) => ({ ...fonte, cadastro }));
+      })
+    ))
+      .then((carregados) => {
+        const territorios = carregados.map((item) => {
+          const rings = item.cadastro.territorio.poligono.coordinates;
+          const lugares = item.cadastro.estabelecimentos.filter((lugar) =>
+            insideTerritory(lugar.lon, lugar.lat, rings)
+          );
+          return { ...item, rings, lugares };
+        });
+
+        const recebimento = territorios
+          .map((item) => item.cadastro.recebimento)
+          .find((item) => item?.rede === "localnet");
+        const carteiraTeste = recebimento?.endereco || "";
+        if (receiveWallet && receiveWalletAddress && carteiraTeste) {
+          receiveWallet.hidden = false;
+          receiveWalletAddress.textContent = carteiraTeste;
+          const receiveWalletLabel = document.querySelector("#receiveWalletLabel");
+          const receiveWalletNote = document.querySelector("#receiveWalletNote");
+          if (receiveWalletLabel) receiveWalletLabel.textContent = "Carteira única de teste · localnet";
+          if (receiveWalletNote) {
+            receiveWalletNote.textContent =
+              `Nesta versão, o pagamento de todos os territórios cai neste endereço, somente no validator local (${recebimento.rpc}).`;
+          }
+        }
+
+        const total = territorios.reduce((sum, item) => sum + item.lugares.length, 0);
+        const nomes = territorios.map((item) => item.cadastro.territorio.nome);
+        const lista = nomes.length > 1
+          ? `${nomes.slice(0, -1).join(", ")} e ${nomes.at(-1)}`
+          : nomes[0] || "";
+        mapSource.textContent =
+          `${total} autônomos em ${lista}. A compra só libera no polígono da sua localização.`;
+
+        const map = L.map(territoryMap, { scrollWheelZoom: false });
+        map.setView([-19.94, -43.995], 12);
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "&copy; OpenStreetMap"
+        }).addTo(map);
+        const grupo = L.featureGroup().addTo(map);
+        const markers = new Map();
+        let pessoa = null;
+
+        const mostrarPessoa = (lat, lon) => {
+          if (pessoa) {
+            pessoa.setLatLng([lat, lon]);
+          } else {
+            pessoa = L.circleMarker([lat, lon], {
+              radius: 7,
+              color: "#10274c",
+              weight: 2,
+              fillColor: "#ffffff",
+              fillOpacity: 1
+            }).addTo(map);
+            pessoa.bindPopup("Sua localização");
+          }
+        };
+
+        const territorioDaPessoa = (lat, lon) => territorios.find((item) =>
+          insideTerritory(lon, lat, item.rings)
+        );
+
+        const informarCompra = (state, message) => {
+          if (!buyResult) return;
+          buyResult.dataset.state = state;
+          buyResult.textContent = message;
+        };
+
+        const comprar = async (lugar, produto, territorio) => {
+          informarCompra("", "Conferindo se você está dentro do polígono...");
+          try {
+            const posicao = await new Promise((resolve, reject) => {
+              if (!navigator.geolocation) {
+                reject(new Error("Este navegador não informa localização."));
+                return;
+              }
+              navigator.geolocation.getCurrentPosition(
+                (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+                () => reject(new Error("A localização foi negada. Sem ela a compra não libera.")),
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 15000 }
+              );
+            });
+            const onde = territorioDaPessoa(posicao.lat, posicao.lon);
+            try {
+              mostrarPessoa(posicao.lat, posicao.lon);
+            } catch {
+              // A decisão da compra depende do polígono, não do marcador.
+            }
+            if (onde?.cadastro.territorio.nome === territorio.cadastro.territorio.nome) {
+              informarCompra(
+                "ok",
+                `Compra liberada: ${produto.nome} em ${lugar.nome}. Você está em ${territorio.cadastro.territorio.nome}.`
+              );
+              return;
+            }
+            if (onde) {
+              informarCompra(
+                "blocked",
+                `Compra recusada em ${territorio.cadastro.territorio.nome}. Você está em ${onde.cadastro.territorio.nome}. Compre nos estabelecimentos desse polígono.`
+              );
+              return;
+            }
+            informarCompra(
+              "blocked",
+              `Compra recusada. Sua localização está fora de ${territorio.cadastro.territorio.nome}.`
+            );
+          } catch (error) {
+            informarCompra("blocked", error.message);
+          }
+        };
+
+        const selectPlace = (id) => {
+          placeList.querySelectorAll(".place-card").forEach((card) => {
+            card.classList.toggle("is-active", card.dataset.id === id);
+          });
+          const marker = markers.get(id);
+          if (!marker) return;
+          marker.openPopup();
+          map.panTo(marker.getLatLng());
+        };
+
+        territorios.forEach((territorio) => {
+          const nome = territorio.cadastro.territorio.nome;
+          L.geoJSON(territorio.cadastro.territorio.poligono, {
+            style: {
+              color: territorio.cor,
+              weight: 2,
+              fillColor: territorio.cor,
+              fillOpacity: 0.16
+            }
+          }).addTo(grupo);
+
+          if (territoryLegend) {
+            const item = document.createElement("li");
+            const swatch = document.createElement("span");
+            swatch.className = "territory-swatch";
+            swatch.style.background = territorio.cor;
+            item.append(swatch, document.createTextNode(nome));
+            territoryLegend.append(item);
+          }
+
+          territorio.lugares.forEach((lugar) => {
+            const marker = L.circleMarker([lugar.lat, lugar.lon], {
+              radius: 8,
+              color: territorio.corEscura,
+              weight: 2,
+              fillColor: territorio.cor,
+              fillOpacity: 0.95
+            }).addTo(map);
+            const produtos = lugar.produtos
+              .map((produto) => `${produto.nome} · ${reais(produto.preco)}`)
+              .join("<br>");
+            marker.bindPopup(
+              `<strong>${lugar.nome}</strong><br>${lugar.oficio}<br>${lugar.rua}, ${nome}<br><br>${produtos}`
+            );
+            marker.on("click", () => selectPlace(lugar.id));
+            markers.set(lugar.id, marker);
+
+            const card = document.createElement("article");
+            card.className = "place-card";
+            card.dataset.id = lugar.id;
+            card.style.setProperty("--place-color", territorio.cor);
+            const open = document.createElement("button");
+            open.type = "button";
+            open.className = "place-open";
+            open.innerHTML = "<strong></strong><span class=\"place-role\"></span><span class=\"place-street\"></span>";
+            open.querySelector("strong").textContent = lugar.nome;
+            open.querySelector(".place-role").textContent = `${lugar.oficio} · ${nome}`;
+            open.querySelector(".place-street").textContent = `${lugar.rua}, ${lugar.bairro}`;
+            open.addEventListener("click", () => selectPlace(lugar.id));
+            const products = document.createElement("div");
+            products.className = "place-products";
+            lugar.produtos.forEach((produto) => {
+              const buy = document.createElement("button");
+              buy.type = "button";
+              buy.textContent = `Comprar ${produto.nome} · ${reais(produto.preco)}`;
+              buy.addEventListener("click", () => comprar(lugar, produto, territorio));
+              products.append(buy);
+            });
+            card.append(open, products);
+            placeList.append(card);
+          });
+        });
+
+        map.invalidateSize();
+        const limites = grupo.getBounds();
+        if (limites.isValid()) {
+          map.fitBounds(limites, { padding: [18, 18] });
+        }
+      })
+      .catch((error) => {
+        showMapError(error && error.message ? error.message : "Não foi possível carregar os territórios.");
+      });
+
+    copyReceiveWallet?.addEventListener("click", async () => {
+      const endereco = receiveWalletAddress?.textContent || "";
+      if (!endereco) return;
+      try {
+        await navigator.clipboard.writeText(endereco);
+        copyReceiveWallet.textContent = "Endereço copiado";
+      } catch {
+        copyReceiveWallet.textContent = "Não foi possível copiar";
+      }
+    });
+  }
+}

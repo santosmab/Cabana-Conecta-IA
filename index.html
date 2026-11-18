@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -53,6 +55,7 @@
     <nav class="nav" id="nav">
       <a href="#projeto">O projeto</a>
       <a href="#funciona">Como funciona</a>
+      <a href="#mapa">No bairro</a>
       <a href="#comunidade">Comunidade</a>
       <a href="#loginDialog" class="nav-button" data-open-login>Login</a>
     </nav>
@@ -206,40 +209,28 @@
 
     <section class="community-map section" id="mapa">
       <div class="section-heading">
-        <span class="eyebrow">TERRITÓRIO, PERTENCIMENTO E CONEXÃO</span>
-        <h2>Um projeto pensado para a <span>geografia da comunidade</span>.</h2>
+        <span class="eyebrow">TERRITÓRIOS À MOSTRA</span>
+        <h2>Você compra no polígono <span>onde está</span>.</h2>
         <p>
-          O CabanaPay nasce no coração do Cabana, reconhecendo os caminhos, os pontos de encontro
-          e as áreas que fazem a região ganhar vida, identidade e confiança.
+          O mapa mostra Cabana do Pai Tomás, Madre Gertrudes e Coração Eucarístico.
+          Cada um tem cor e estabelecimentos próprios.
+          A compra só libera se a sua localização estiver dentro do polígono daquele comércio.
         </p>
       </div>
 
       <div class="map-shell">
-        <div class="map-illustration" aria-label="Mapa ilustrado da comunidade do Cabana">
-          <div class="map-compass" aria-hidden="true">N</div>
-          <div class="map-coords" aria-hidden="true">S 08° • W 15°</div>
-
-          <span class="map-marker map-marker--center">Cabana</span>
-          <span class="map-marker map-marker--one">Mercado</span>
-          <span class="map-marker map-marker--two">Escola</span>
-          <span class="map-marker map-marker--three">Praça</span>
-          <span class="map-marker map-marker--four">Moradores</span>
-
-          <div class="map-road road-a"></div>
-          <div class="map-road road-b"></div>
-          <div class="map-road road-c"></div>
-        </div>
-
-        <div class="map-notes">
-          <div class="map-note">
-            <strong>Confiança local</strong>
-            <p>Quando a comunidade reconhece o lugar, o projeto ganha legitimidade e acolhimento no mapa da vida local.</p>
+        <div class="territory-map" id="territoryMap" role="region" aria-label="Mapa de Cabana do Pai Tomás, Madre Gertrudes e Coração Eucarístico"></div>
+        <div class="map-side">
+          <ul class="territory-legend" id="territoryLegend"></ul>
+          <p class="buy-result" id="buyResult" aria-live="polite"></p>
+          <div class="receive-wallet" id="receiveWallet" hidden>
+            <p class="receive-wallet-label" id="receiveWalletLabel">Carteira única de teste · localnet</p>
+            <p class="receive-wallet-address" id="receiveWalletAddress"></p>
+            <button class="receive-wallet-copy" id="copyReceiveWallet" type="button">Copiar endereço</button>
+            <p class="receive-wallet-note" id="receiveWalletNote">Nesta versão, o pagamento de qualquer estabelecimento cai neste endereço, somente no validator local (127.0.0.1:8899).</p>
           </div>
-
-          <div class="map-note">
-            <strong>Conexão real</strong>
-            <p>O CabanaPay conecta moradores, pequenas lojas, caminhos de rotina e oportunidades que fazem parte do território.</p>
-          </div>
+          <p class="map-source" id="mapSource"></p>
+          <div class="place-list" id="placeList"></div>
         </div>
       </div>
     </section>
